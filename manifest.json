@@ -1,0 +1,618 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/S542047/Downloads/docfx_project",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Controllers.AccountController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Controllers.AccountController.html",
+          "hash": "PhA4d0gh6IOn9XwTQ4gernTlGHcZyVOYq/yltL8wrHI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Controllers.AdministrationController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Controllers.AdministrationController.html",
+          "hash": "VFvK07dnqFHWG4zQ7s9jXpr9aCj6vzC5PJX4BYklvVQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Controllers.ErrorController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Controllers.ErrorController.html",
+          "hash": "OKAN1s9aGgZxAx6fbAvMe9BfF5bZmvjBwihpxBKS7HY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Controllers.HomeController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Controllers.HomeController.html",
+          "hash": "RyZjMf3FAZ2ut186SsZ7/M5yfbfcQguYhlCTBB5Xcsg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Controllers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Controllers.html",
+          "hash": "nzTfMoro/wS9AHxj6Pm4yVWr0X7zRMCoHg30riwTyE4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Migrations.AddingIdentity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Migrations.AddingIdentity.html",
+          "hash": "uU+DXafS+kmuuuCFSCxUdtMhUS2+g5NSRIdnqfZetmg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Migrations.Addphotopath.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Migrations.Addphotopath.html",
+          "hash": "nvlQB3mGO4THEK5XyU+cSk55/maIm6/ZwYm3sDz0xpA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Migrations.Extend_IdentityUser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Migrations.Extend_IdentityUser.html",
+          "hash": "wBtR3sh/MYik9Dr2Z3Q5N/awgXQthcMbOaFkOUWxK68="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Migrations.InitialMigration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Migrations.InitialMigration.html",
+          "hash": "GlanURyGmNJM5NdjMz7V3AlH3nIrC825F6XXv/DxgsE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Migrations.SeedBooksTable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Migrations.SeedBooksTable.html",
+          "hash": "vML7QdXPoKn6uu0srIDt82Fs7m9oULcVVdqe86dPWkg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Migrations.State_Migration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Migrations.State_Migration.html",
+          "hash": "g6BepuNrMGNqRXlBHGQqYM3zHbgAXtYlr/PClzEEhhU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Migrations.Test.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Migrations.Test.html",
+          "hash": "9gsNTfKB/JieFsDH56OstVJX21x8Qn3wHaWioLBYrZM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Migrations.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Migrations.html",
+          "hash": "zdq6XD7QRr31wV0bOi1mbhALHBjqDlwmmQcWe8hBB4o="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Models.AppDbContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Models.AppDbContext.html",
+          "hash": "GEKVhWFbS6FTwLACHf0dL2ORVvPo56wKrlX3AJ1notQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Models.ApplicationUser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Models.ApplicationUser.html",
+          "hash": "P0YfLPZ0gQ3VyQZcu2oqYo0L+B5/OwQewPZDGIr+Es4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Models.Available.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Models.Available.html",
+          "hash": "Jq231e/rw8urX0HNMRLTYbqC+yifBQnyCRzsRFkV/WI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Models.Books.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Models.Books.html",
+          "hash": "johByn2evuxrkuuXXn5Zo7zuTxfUvZf118vbMht6qyY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Models.ClaimsStore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Models.ClaimsStore.html",
+          "hash": "ZI+2k4tLyhZ6645mwiNQoY7ePTvLlsL7SvFjozx1R3Y="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Models.IBooksRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Models.IBooksRepository.html",
+          "hash": "JHvhGYUJiz6xL2mfQkN80gbFkoNL8J1qWz/nTiBoo0k="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Models.Major.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Models.Major.html",
+          "hash": "2w3Rr2J+UqhTQh0/ssnu+imU1SEFfmj3XFWGiVhbVlk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Models.MockBooksRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Models.MockBooksRepository.html",
+          "hash": "4pfuXj225eUbEQrrd9ShETaBWsOupALPPMUOKHvzkwg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Models.SQLBookRepo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Models.SQLBookRepo.html",
+          "hash": "CPpJIVn/+i2DnkIm1TqKO0dgATL2A6UUwSL1KwRjzBY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Models.html",
+          "hash": "03bmdsMH4bmhUrpnieOHQkiILI/D25zNymniIn+xouY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Program.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Program.html",
+          "hash": "LJWB3OvuYAuBjJDJ1+c/Ioztoppeja12Hvj1MIKuALY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Startup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Startup.html",
+          "hash": "parEj6RR1KbjZoC7xTi/9n5Yov2lK6S1ANLn0LBOXVA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Utilities.ValidEmailDomainAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Utilities.ValidEmailDomainAttribute.html",
+          "hash": "kqZ8ZNskrlQMtws9VQFJv5UX/pboZdFr4OTc0Tu6KBE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.Utilities.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.Utilities.html",
+          "hash": "Oz/LCRr0VtP++W4UO1KTLcZXD6pCU/1+Ndx9WeH0aZw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.BookCreateViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.BookCreateViewModel.html",
+          "hash": "3e7mH+JGRSIsgw9Y02bdQUcuPkBC2CQzDci8lz86VDA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.BookEditViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.BookEditViewModel.html",
+          "hash": "OTtdHcs6xITV5wMjA2M4osB4EfZZQFvmUOH6YSSP0HA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.CreateRoleViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.CreateRoleViewModel.html",
+          "hash": "sYziLqas5ffZzL4J+xSS7lfAAIw/iFxwoNQaR1TYvcY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.EditRoleViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.EditRoleViewModel.html",
+          "hash": "HNjVeK1S1iIgO+ECcHrfAtVbFJW1DMBOq3IvUhRoOx4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.EditUserViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.EditUserViewModel.html",
+          "hash": "ScczY0QOz9nx2OL1D6HkLFak45nrkpZWN3iLHx21dd0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.HomeDetailsViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.HomeDetailsViewModel.html",
+          "hash": "h7XwTmf8IZOT75bqMsmXTUGp3u1n1p/mKTDZ81KK0+0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.LoginViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.LoginViewModel.html",
+          "hash": "3bzqFKUrDq6vjoIYrnjSrD3P/zC3UOmJcwVhgTmI0UQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.RegisterViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.RegisterViewModel.html",
+          "hash": "ySlD299RikW5GGtn3WBfAs/EPBV1hE3k0AXuhuxf/5U="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.UserClaim.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.UserClaim.html",
+          "hash": "CjNAU0VYz5g4TZSii1+s6JDTJ5f06moeNgIxbcU/rpI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.UserClaimsViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.UserClaimsViewModel.html",
+          "hash": "mclOZjp03VSjhPKuCHdD3nhb69Fo5QXtyaWtolTcIfo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.UserRoleViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.UserRoleViewModel.html",
+          "hash": "WUesapokK2BzzBSr46HQRUbM4azXWAgehL9bWwlDXhU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.UserRolesViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.UserRolesViewModel.html",
+          "hash": "yhKZpJte74AK/o/p6mmp5XzXXdmKYOhIR0Be+FdHUBQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.ViewModels.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.ViewModels.html",
+          "hash": "m6YjjU6Rw0BPAx5cMdqjOfF2RuHFv6qNGZX76AYLBzg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/HandInHandOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/HandInHandOut.html",
+          "hash": "5PXouTcFtsGU2Tv8IXNotoem632teK/jio7SCIRASTY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "YXpAurUhKGu5pkJxC4BuODivOBFRJjQAtOJZ0eGlCb0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "p2FsKOnD0G/liTIGv1LwHqZ78srt+hMGNMAk6yMrpXc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "jXoO2GBV3sjwHsSp/rYKa06ENgQnCniCjAdUDJiNQkM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "BlPxk5mtl2kgfcZUgkEguqiSAR/EUyUTT4EdebwkQvs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "RxbvaRbADFqXDczlxcB5Ol8+pNhyPjHXAgOt5lwTiF0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "WSuRrYiGwKKMbtdG9z8W9fXmLoCyTnGg9AxbPKLXm2Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 3
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 41,
+          "skipped_file_count": 41
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
