@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/Users/S542047/Downloads/docfx_project",
+  "source_base_path": "C:/Users/S542047/Desktop/Docfx/HandInHandOut/HandInHandOut",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/HandInHandOut.Controllers.AccountController.html",
-          "hash": "PhA4d0gh6IOn9XwTQ4gernTlGHcZyVOYq/yltL8wrHI="
+          "hash": "BPKJww1VpxM7obYvU3CYNTdPikXp6VYwRJV8y293ZFM="
         }
       },
       "is_incremental": true,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/HandInHandOut.Controllers.AdministrationController.html",
-          "hash": "VFvK07dnqFHWG4zQ7s9jXpr9aCj6vzC5PJX4BYklvVQ="
+          "hash": "7PlyXKz22/rTiSL6xlCbPWajcef7fXrIHkuxDNX7UuI="
         }
       },
       "is_incremental": true,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/HandInHandOut.Controllers.HomeController.html",
-          "hash": "RyZjMf3FAZ2ut186SsZ7/M5yfbfcQguYhlCTBB5Xcsg="
+          "hash": "6DqarqudwkT636AkovWa/5GocNUDNzt7EqLnjHFr57M="
         }
       },
       "is_incremental": true,
@@ -525,7 +525,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "jXoO2GBV3sjwHsSp/rYKa06ENgQnCniCjAdUDJiNQkM="
+          "hash": "jav+p2NahYGi9FrCOezQlcnXLfLKDRujWagZEj9TbhA="
         }
       },
       "is_incremental": true,
@@ -549,7 +549,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "RxbvaRbADFqXDczlxcB5Ol8+pNhyPjHXAgOt5lwTiF0="
+          "hash": "itTPwJOwqUNMsntm/9PrRD/ELxYFy6IQ7LeyAu9gFsE="
         }
       },
       "is_incremental": true,
