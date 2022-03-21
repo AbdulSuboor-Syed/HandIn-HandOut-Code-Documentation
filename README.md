@@ -1,6 +1,6 @@
 # HandIn-HandOut-Code-Documentation
 
-This repository is used to cite all the source from which code, images and other sources that have been used for the creation of the project
+This repository is used to cite all the source from which code, images and other sources that have been used for the creation of the project<br>
 
 ## Images:
 Images taken from [unsplash](https://unsplash.com/) <br>
