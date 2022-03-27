@@ -6,6 +6,10 @@ This repository is used to cite all the source from which code, images and other
 Images taken from [unsplash](https://unsplash.com/) <br>
 [unsplash License](https://unsplash.com/license) for more information <br>
 
+## Video:
+Video were taken from [Pexels](https://www.pexels.com/)<br>
+[Pexels License](https://www.pexels.com/license/)
+
 ## ASP.NET Core tutorial:
 [Kudvenkat ASP NET Core Tutorial](https://www.youtube.com/watch?v=4IgC2Q5-yDE&list=PL6n9fhu94yhVkdrusLaQsfERmL_Jh4XmU&ab_channel=kudvenkat)<br>
 [Kudvenkat Blog](https://csharp-video-tutorials.blogspot.com/2019/01/main-method-in-aspnet-core.html)<br>
