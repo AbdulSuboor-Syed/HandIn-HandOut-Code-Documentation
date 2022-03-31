@@ -157,15 +157,16 @@ Roles = new List<string>();
 }
 </code></pre>
 <h2 id="homedetailsviewmodelcs">HomeDetailsViewModel.cs</h2>
-<p>This model is used by Home controller Details() method to View details for the book selected
-namespace HandInHandOut.ViewModels
-{
-public class HomeDetailsViewModel
-{
-public Books books { get; set; }
-public string PageTitle { get; set; }
-}
-}</p>
+<p>This model is used by Home controller Details() method to View details for the book selected</p>
+<pre><code>        namespace HandInHandOut.ViewModels
+        {
+        public class HomeDetailsViewModel
+        {
+            public Books books { get; set; }
+            public string PageTitle { get; set; }
+        }
+        }
+</code></pre>
 <h2 id="loginviewmodelcs">LoginViewModel.cs</h2>
 <p>This model is used by Account controller Login() method to authenticate a user.</p>
 <pre><code>    namespace HandInHandOut.ViewModels
@@ -246,18 +247,19 @@ public string PageTitle { get; set; }
     }
 </code></pre>
 <h2 id="userrolesviewmodelcs">UserRolesViewModel.cs</h2>
-<p>This model is used by Administration Controller in various methods to authorize user with a role to give them access to certain operations and pages.
-namespace HandInHandOut.ViewModels
-{
-public class UserRolesViewModel
-{
-public string RoleId { get; set; }
-public string RoleName { get; set; }
-public bool IsSelected { get; set; }
-}
-}</p>
-<h2 id="userroleviewmodelcs">UserRoleViewModel.cs</h2>
 <p>This model is used by Administration Controller in various methods to authorize user with a role to give them access to certain operations and pages.</p>
+<pre><code>    namespace HandInHandOut.ViewModels
+    {
+        public class UserRolesViewModel
+        {
+            public string RoleId { get; set; }
+            public string RoleName { get; set; }
+            public bool IsSelected { get; set; }
+        }
+    }
+</code></pre>
+<h2 id="userroleviewmodelcs">UserRoleViewModel.cs</h2>
+<p>This model is used by Account Controller in various methods to authorize user with a role to give them access to certain operations and pages.</p>
 <pre><code>    namespace HandInHandOut.ViewModels
     {
         public class UserRoleViewModel

@@ -540,7 +540,7 @@
           "hash": "t+bLJbbCvHdcNxAgVT7FXdX6jIA8EmtOTSVVk6GACkw="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -573,10 +573,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/viewmodels.html",
-          "hash": "/7j5RF4/oq+jleHmbc/zw/Z0+pQTQlzo6cLPqBYLgdk="
+          "hash": "qG6IfnZhDdWdw/ixtAH8uVXSSF6haQJlmEu0x45U84Y="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
