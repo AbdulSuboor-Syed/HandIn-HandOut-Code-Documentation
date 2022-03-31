@@ -1,0 +1,349 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>AppDbContext.cs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="AppDbContext.cs ">
+    <meta name="generator" content="docfx 2.59.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="appdbcontextcs">AppDbContext.cs</h2>
+
+<p>This model is used to seed dummy data into the database of the project when a user tries to run the application for the first time.</p>
+<pre><code>namespace HandInHandOut.Models
+{
+    public class AppDbContext : IdentityDbContext&lt;ApplicationUser&gt;
+    {
+        public AppDbContext(DbContextOptions&lt;AppDbContext&gt; options): base(options)
+        {
+
+        }
+        public DbSet&lt;Books&gt; Book { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity&lt;Books&gt;().HasData(
+                new Books
+                {
+                    id = 1,
+                    Name = &quot;C# For Dummies&quot;,
+                    Author = &quot;Syed Abdul Suboor&quot;,
+                    Major = Major.ComputerScience,
+                    BuyingAmount = 12.99,
+                    RentingAmount = 0.2,
+                    IsAvailable = Available.Yes,
+                    NumberOfBooksAvailable = 20
+
+                }
+                );
+
+            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e =&gt; e.GetForeignKeys()))
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+        }
+    }
+}
+</code></pre>
+<h2 id="applicationusercs">ApplicationUser.cs</h2>
+<p>This model is used to add custom fields for user information.</p>
+<pre><code>namespace HandInHandOut.Models
+{
+    public class ApplicationUser:IdentityUser
+    {
+
+        public string City { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+
+        public string State { get; set; }
+
+    }
+}
+</code></pre>
+<h2 id="bookscs">Books.cs</h2>
+<p>This model is used to store information about the books such as id , Name, Author , Major etc. Here the isAvailable and Major field is called from a different enum class because we wanted to use custom value for the field. We use drop down menu for these custom values to be displayed.</p>
+<pre><code>namespace HandInHandOut.Models
+{
+    public class Books
+    {
+        public int id { get; set; }
+        
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Author { get; set; }
+        [Required]
+        public  Major? Major { get; set; }
+        public double BuyingAmount { get; set; }
+        public double RentingAmount { get; set; }
+        public Available IsAvailable { get; set; }
+        
+        public int NumberOfBooksAvailable { get; set; }
+
+        public string PhotoPath { get; set; }
+
+    }
+}
+</code></pre>
+<h2 id="availablecs">Available.cs</h2>
+<p>This model is used in the Books.cs model. This enum class stores custom values for IsAvailable dropdown.</p>
+<pre><code>namespace HandInHandOut.Models
+{
+    public enum Available
+    {
+        Yes,
+        No
+    }
+}
+</code></pre>
+<h2 id="majorcs">Major.cs</h2>
+<p>This model is used in Books.cs model. This enum class stores custom values for Major dropdown.</p>
+<pre><code>namespace HandInHandOut.Models
+{
+    public enum Major
+    {
+        None,
+        ComputerScience,
+        Biology,
+        Educations,
+        Economics,
+        HealthScience,
+        Chemistry,
+        Agriculture,
+        Business,
+        English,
+        FoodServices,
+        Finance,
+        PoliticalScience,
+        Other
+    }
+}
+</code></pre>
+<h2 id="ibooksrepositorycs">IBooksRepository.cs</h2>
+<p>This model is used as an interfact for CRUD(CREATE,READ,UPDATE,DELETE) operations from the respository.</p>
+<pre><code>namespace HandInHandOut.Models
+{
+    public interface IBooksRepository
+    {
+        Books GetBooks(int Id);
+        IEnumerable&lt;Books&gt; GetAllBooks();
+        Books Add(Books book);
+        Books UpdateBooks(Books book);
+        Books Delete(int id);
+    }
+}
+</code></pre>
+<h2 id="sqlbookrepocs">SQLBookRepo.cs</h2>
+<p>In this model we write code for the CRUD operations. This class extends the model class IBooksRepository.</p>
+<p>namespace HandInHandOut.Models
+{
+public class SQLBookRepo : IBooksRepository
+{
+private readonly AppDbContext context;
+public SQLBookRepo(AppDbContext context)
+{
+this.context = context;
+}</p>
+<pre><code>    public Books Add(Books book)
+    {
+        context.Book.Add(book);
+        context.SaveChanges();
+        return book;
+    }
+
+    public Books Delete(int id)
+    {
+        Books book=context.Book.Find(id);
+        if(book!= null)
+        {
+            context.Book.Remove(book);
+            context.SaveChanges();
+        }
+        return book;
+    }
+
+    public IEnumerable&lt;Books&gt; GetAllBooks()
+    {
+        return context.Book;
+    }
+
+    public Books GetBooks(int Id)
+    {
+        return context.Book.Find(Id);
+    }
+
+    public Books UpdateBooks(Books book)
+    {
+        var bookChanges = context.Book.Attach(book);
+        bookChanges.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        context.SaveChanges();
+        return book;
+    }
+}
+</code></pre>
+<p>}</p>
+<h2 id="mockbooksrepositorycs">MockBooksRepository.cs</h2>
+<p>This model is used to test CRUD operation in a mock respository.</p>
+<pre><code>namespace HandInHandOut.Models
+{
+    public class MockBooksRepository : IBooksRepository
+    {
+        private List&lt;Books&gt; _booksList;
+
+
+        public MockBooksRepository()
+        {
+            _booksList = new List&lt;Books&gt;()
+            {
+                new Books() { id = 1, Name = &quot;C# For Dummies&quot;,Author=&quot;Suboor&quot;,Major=Major.ComputerScience, BuyingAmount=20,RentingAmount=0.10, IsAvailable = Available.Yes ,NumberOfBooksAvailable=10},
+                new Books() { id = 2, Name = &quot;Math For Dummies&quot;, Author = &quot;Nawaz&quot;, Major =Major.Economics, BuyingAmount = 15,RentingAmount=0.5, IsAvailable = Available.Yes ,NumberOfBooksAvailable=20},
+                new Books() { id = 3, Name = &quot;Plants For Dummies&quot;,Author=&quot;Vinay&quot;,Major=Major.Biology,  BuyingAmount=20,RentingAmount=0.20, IsAvailable = Available.No,NumberOfBooksAvailable=0},
+                new Books() { id = 4, Name = &quot;Politics For Dummies&quot;,Author=&quot;Rehman&quot;,Major=Major.PoliticalScience, BuyingAmount=20,RentingAmount=0.20, IsAvailable = Available.Yes,NumberOfBooksAvailable=5}
+            };
+        }
+
+        public Books Add(Books book)
+        {
+            book.id= _booksList.Max(e =&gt; e.id) + 1;
+            _booksList.Add(book);
+            return book;
+        }
+
+        public Books Delete(int id)
+        {
+        Books book=_booksList.FirstOrDefault(e =&gt; e.id == id);
+            if(book != null)
+            {
+                _booksList.Remove(book);
+            }
+            return book;
+        }
+
+        public IEnumerable&lt;Books&gt; GetAllBooks()
+        {
+            return _booksList;
+        }
+
+        public Books GetBooks(int Id)
+        {
+            return _booksList.FirstOrDefault(e =&gt; e.id == Id);
+        }
+
+        public Books UpdateBooks(Books bookChanges)
+        {
+            Books book = _booksList.FirstOrDefault(e =&gt; e.id == bookChanges.id);
+            if (book != null)
+            {
+                book.Name = bookChanges.Name;
+                book.Author = bookChanges.Author;
+                book.Major = bookChanges.Major;
+                book.BuyingAmount = bookChanges.BuyingAmount;
+                book.RentingAmount = bookChanges.RentingAmount;
+                book.NumberOfBooksAvailable = bookChanges.NumberOfBooksAvailable;
+                book.IsAvailable = bookChanges.IsAvailable;
+            }
+            return book;
+        }
+    }
+}
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

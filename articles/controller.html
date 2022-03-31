@@ -1,0 +1,1263 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>HomeController.cs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="HomeController.cs ">
+    <meta name="generator" content="docfx 2.59.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="homecontrollercs">HomeController.cs</h2>
+
+<p>This controller handels all the methods and requests to perform CRUD operations for the Book repository.<br>
+<br>
+This controller handels the request for the pages</p>
+<ol>
+<li><p>Index.cshtml</p>
+</li>
+<li><p>Welcome.cshtml</p>
+</li>
+<li><p>Details.cshtml</p>
+</li>
+<li><p>Create.cshtml</p>
+</li>
+<li><p>Edit.cshtml.
+<br>
+<br>
+It also handels Post request to delete a book from the repository and creating a unique filename for each image uploaded.<br></p>
+<pre><code> namespace HandInHandOut.Controllers
+ {    
+     public class HomeController:Controller
+     {
+         private readonly IBooksRepository _booksRepository;
+         private readonly IHostingEnvironment hostingEnvironment;        
+         public HomeController(IBooksRepository booksRepository, IHostingEnvironment hostingEnvironment)
+         {
+             _booksRepository = booksRepository;
+             this.hostingEnvironment = hostingEnvironment;
+         }
+
+
+     /// &lt;summary&gt;
+     /// This method redirect users to the catalog where all the books are displayed taking data from database
+     /// &lt;/summary&gt;
+     /// &lt;returns&gt;View(model)&lt;/returns&gt;
+     [Authorize]
+     public ViewResult Index()
+     {
+         var model = _booksRepository.GetAllBooks();
+             return View(model);
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to redirect user to the information about the selected book
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;id&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;View(homeDetailsViewModel)&lt;/returns&gt;
+     public ViewResult Details(int? id)
+     {            
+         Books bookCheck = _booksRepository.GetBooks(id.Value);
+         if(bookCheck == null)
+         {
+             Response.StatusCode = 404;
+             return View(&quot;BookNotFound&quot;,id.Value);
+         }
+
+
+         HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel()
+         {
+             books = bookCheck,
+             PageTitle = &quot;Books Details&quot;
+     };          
+         return  View(homeDetailsViewModel);
+     }
+
+     /// &lt;summary&gt;
+     /// This method redirects users to Create Book Page
+     /// &lt;/summary&gt;
+     /// &lt;returns&gt;View()-&gt;Home/Create&lt;/returns&gt;
+     [HttpGet]
+     [Authorize(Roles = &quot;Admin,Collaborator&quot;)]
+
+     public ViewResult Create()
+     {
+         return View();
+     }
+     /// &lt;summary&gt;
+     /// This method takes information about new books and updates the database
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+     [Authorize(Roles = &quot;Admin,Collaborator&quot;)]
+     public IActionResult Create(BookCreateViewModel model)
+     {
+         if (ModelState.IsValid)
+         {
+             string uniqueFileName = ProcessUploadFile(model);
+             Books newBook = new Books
+             {
+                 Name = model.Name,
+                 Major = model.Major,
+                 Author = model.Author,
+                 NumberOfBooksAvailable = model.NumberOfBooksAvailable,
+                 BuyingAmount = model.BuyingAmount,
+                 RentingAmount = model.RentingAmount,
+                 IsAvailable = model.IsAvailable,
+                 PhotoPath = uniqueFileName
+             };
+             _booksRepository.Add(newBook);
+             return RedirectToAction(&quot;details&quot;, new { id = newBook.id });
+         }
+         return View();
+     }
+
+
+     /// &lt;summary&gt;
+     /// This method is used to redirect user to the home page
+     /// &lt;/summary&gt;
+     /// &lt;returns&gt;View(Home\Welcome)&lt;/returns&gt;
+     [AllowAnonymous]
+     public ViewResult Welcome()
+     {
+         return View();
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to redirect the user to Sell Books page
+     /// &lt;/summary&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     public ViewResult SellBooks()
+     {
+         return View();
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to redirect the user to About us page
+     /// &lt;/summary&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     public ViewResult AboutUs()
+     {
+         return View();
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to redirect the user to Edit a book information
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;id&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpGet]
+     [Authorize(Roles = &quot;Admin,Collaborator&quot;)]
+     public ViewResult Edit(int id)
+     {
+         Books book = _booksRepository.GetBooks(id);
+         BookEditViewModel booksEditViewModel = new BookEditViewModel
+         {
+             id = book.id,
+             Name = book.Name,
+             Author = book.Author,
+             Major = book.Major,
+             BuyingAmount = book.BuyingAmount,
+             RentingAmount = book.RentingAmount,
+             NumberOfBooksAvailable = book.NumberOfBooksAvailable,
+             IsAvailable = book.IsAvailable,
+             ExistingPhotoPath = book.PhotoPath
+         };
+         return View(booksEditViewModel);
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to update database after the data is altered for a book
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+     [Authorize(Roles = &quot;Admin,Collaborator&quot;)]
+
+     public IActionResult Edit(BookEditViewModel model)
+     {
+         if (ModelState.IsValid)
+         {
+             Books book = _booksRepository.GetBooks(model.id);
+             book.Name = model.Name;
+             book.Author = model.Author;
+             book.Major = model.Major;
+             book.NumberOfBooksAvailable = model.NumberOfBooksAvailable;
+             book.BuyingAmount = model.BuyingAmount;
+             book.RentingAmount = model.RentingAmount;
+             book.IsAvailable = model.IsAvailable;
+             if (model.Photo != null)
+             {
+                 book.PhotoPath = ProcessUploadFile(model);
+             }
+             _booksRepository.UpdateBooks(book);
+             return RedirectToAction(&quot;index&quot;);
+         }
+         return View();
+     }
+
+
+     /// &lt;summary&gt;
+     /// This methos is used to delete a book from the repository
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;id&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+     [Authorize(Roles = &quot;Admin,Collaborator&quot;)]
+     public IActionResult delete(int id)
+     {
+         Books book = _booksRepository.Delete(id);
+         return RedirectToAction(&quot;index&quot;);
+     }
+
+
+
+     /// &lt;summary&gt;
+     /// This method is used to add photos with unique path
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     private string ProcessUploadFile(BookCreateViewModel model)
+     {
+         string uniqueFileName = null;
+         if (model.Photo != null)
+         {
+             string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, &quot;images&quot;);
+             uniqueFileName = Guid.NewGuid().ToString() + &quot;_&quot; + model.Photo.FileName;
+             string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+             using(var fileroute= new FileStream(filePath, FileMode.Create))
+             {
+                 model.Photo.CopyTo(fileroute);
+             }
+
+
+         }
+
+         return uniqueFileName;
+     }
+ }
+
+
+
+ }
+</code></pre>
+</li>
+</ol>
+<h2 id="errorcontrollercs">ErrorController.cs</h2>
+<p>This controller is used to Log all the errors and display custom pages when they occur.</p>
+<pre><code>namespace HandInHandOut.Controllers
+{
+    public class ErrorController : Controller
+    {
+        private readonly ILogger&lt;ErrorController&gt; logger;
+    
+        public ErrorController(ILogger&lt;ErrorController&gt; logger)
+        {
+            this.logger = logger;
+        }
+
+
+        [Route(&quot;Error/{statusCode}&quot;)]
+        public IActionResult HttpStatusCodeHandeler(int statusCode)
+        {
+            var statusCodeResult = HttpContext.Features.Get&lt;IStatusCodeReExecuteFeature&gt;();
+
+            switch (statusCode)
+            {
+                case 404:
+                    ViewBag.ErrorMessage = &quot;Sorry, the resource you requested could not be found&quot;;
+                    logger.LogWarning($&quot;404 Error Occured. Path = {statusCodeResult.OriginalPath}&quot; + $&quot; and QueryString = {statusCodeResult.OriginalQueryString}&quot;);
+                    break;
+            }
+            return View(&quot;NotFound&quot;);
+        }
+
+        [Route(&quot;Error&quot;)]
+        [AllowAnonymous]
+        public IActionResult Error()
+        {
+            var exceptionDetails = HttpContext.Features.Get&lt;IExceptionHandlerPathFeature&gt;();
+
+            logger.LogError($&quot;The path {exceptionDetails.Path} threw an exception {exceptionDetails.Error}&quot;);
+
+            return View(&quot;Error&quot;);
+        }
+    }
+
+}
+</code></pre>
+<h2 id="administrationcontrollercs">AdministrationController.cs</h2>
+<p>This controller is used for role based authorization and claim based authorization.<br>
+<br></p>
+<p>This controller is used in the following pages</p>
+<ol>
+<li><p>AccessDenied.cshtml</p>
+</li>
+<li><p>CreateRole.cshtml</p>
+</li>
+<li><p>EditRole.cshtml</p>
+</li>
+<li><p>EditUser.cshtml</p>
+</li>
+<li><p>EditUserInRole.cshtml</p>
+</li>
+<li><p>ListRoles.cshtml</p>
+</li>
+<li><p>ListUsers.cshtml</p>
+</li>
+<li><p>ManageUserClaims.cshtml</p>
+</li>
+<li><p>ManageUserRoles.cshtml
+<br>
+<br>
+This controller handels all the Admin and Collaborator roles capabilities. We also used policy based authorization to give restriction to Collaborators and their ability to manupilate data.</p>
+<pre><code> namespace HandInHandOut.Controllers
+ {
+     [Authorize(Roles =&quot;Admin&quot;)]
+     public class AdministrationController: Controller
+     {
+         private readonly RoleManager&lt;IdentityRole&gt; roleManager;
+         private readonly UserManager&lt;ApplicationUser&gt; userManager;
+
+     public AdministrationController(RoleManager&lt;IdentityRole&gt; roleManager,UserManager&lt;ApplicationUser&gt; userManager)
+     {
+         this.roleManager = roleManager;
+         this.userManager = userManager;
+     }
+
+
+
+     /// &lt;summary&gt;
+     /// This method is used to get information on user claims
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;userId&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpGet]
+     public async Task&lt;IActionResult&gt; ManageUserClaims(string userId)
+     {
+         var user = await userManager.FindByIdAsync(userId);
+
+         if (user == null)
+         {
+             ViewBag.ErrorMessage = $&quot;User with Id = {userId} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+
+         // UserManager service GetClaimsAsync method gets all the current claims of the user
+         var existingUserClaims = await userManager.GetClaimsAsync(user);
+
+         var model = new UserClaimsViewModel
+         {
+             UserId = userId
+         };
+
+         // Loop through each claim we have in our application
+         foreach (Claim claim in ClaimsStore.AllClaims)
+         {
+             UserClaim userClaim = new UserClaim
+             {
+                 ClaimType = claim.Type
+             };
+
+             // If the user has the claim, set IsSelected property to true, so the checkbox
+             // next to the claim is checked on the UI
+             if (existingUserClaims.Any(c =&gt; c.Type == claim.Type))
+             {
+                 userClaim.IsSelected = true;
+             }
+
+             model.Cliams.Add(userClaim);
+         }
+
+         return View(model);
+
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to set user claims
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+     public async Task&lt;IActionResult&gt; ManageUserClaims(UserClaimsViewModel model)
+     {
+         var user = await userManager.FindByIdAsync(model.UserId);
+
+         if (user == null)
+         {
+             ViewBag.ErrorMessage = $&quot;User with Id = {model.UserId} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+
+         // Get all the user existing claims and delete them
+         var claims = await userManager.GetClaimsAsync(user);
+         var result = await userManager.RemoveClaimsAsync(user, claims);
+
+         if (!result.Succeeded)
+         {
+             ModelState.AddModelError(&quot;&quot;, &quot;Cannot remove user existing claims&quot;);
+             return View(model);
+         }
+
+         // Add all the claims that are selected on the UI
+         result = await userManager.AddClaimsAsync(user,
+             model.Cliams.Where(c =&gt; c.IsSelected).Select(c =&gt; new Claim(c.ClaimType, c.ClaimType)));
+
+         if (!result.Succeeded)
+         {
+             ModelState.AddModelError(&quot;&quot;, &quot;Cannot add selected claims to user&quot;);
+             return View(model);
+         }
+
+         return RedirectToAction(&quot;EditUser&quot;, new { Id = model.UserId });
+
+     }
+
+
+
+
+
+
+
+
+     /// &lt;summary&gt;
+     /// This method is used to get information about a role
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;userId&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpGet]
+     public async Task&lt;IActionResult&gt; ManageUserRoles(string userId)
+     {
+         ViewBag.userId = userId;
+
+         var user = await userManager.FindByIdAsync(userId);
+
+         if (user == null)
+         {
+             ViewBag.ErrorMessage = $&quot;User with Id = {userId} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+
+         var model = new List&lt;UserRolesViewModel&gt;();
+
+         foreach (var role in roleManager.Roles)
+         {
+             var userRolesViewModel = new UserRolesViewModel
+             {
+                 RoleId = role.Id,
+                 RoleName = role.Name
+             };
+
+             if (await userManager.IsInRoleAsync(user, role.Name))
+             {
+                 userRolesViewModel.IsSelected = true;
+             }
+             else
+             {
+                 userRolesViewModel.IsSelected = false;
+             }
+
+             model.Add(userRolesViewModel);
+         }
+
+         return View(model);
+     }
+
+
+     /// &lt;summary&gt;
+     /// This method is used to change the role
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+     /// &lt;param name=&quot;userId&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+     public async Task&lt;IActionResult&gt; ManageUserRoles(List&lt;UserRolesViewModel&gt; model, string userId)
+     {
+         var user = await userManager.FindByIdAsync(userId);
+
+         if (user == null)
+         {
+             ViewBag.ErrorMessage = $&quot;User with Id = {userId} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+
+         var roles = await userManager.GetRolesAsync(user);
+         var result = await userManager.RemoveFromRolesAsync(user, roles);
+
+         if (!result.Succeeded)
+         {
+             ModelState.AddModelError(&quot;&quot;, &quot;Cannot remove user existing roles&quot;);
+             return View(model);
+         }
+
+         result = await userManager.AddToRolesAsync(user,
+             model.Where(x =&gt; x.IsSelected).Select(y =&gt; y.RoleName));
+
+         if (!result.Succeeded)
+         {
+             ModelState.AddModelError(&quot;&quot;, &quot;Cannot add selected roles to user&quot;);
+             return View(model);
+         }
+
+         return RedirectToAction(&quot;EditUser&quot;, new { Id = userId });
+     }
+
+
+
+     /// &lt;summary&gt;
+     /// This method is used to delete a user
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;id&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+     [Authorize(Policy = &quot;DeleteRolePolicy&quot;)]
+     public async Task&lt;IActionResult&gt; DeleteUser(string id)
+     {
+         var user = await userManager.FindByIdAsync(id);
+
+         if (user == null)
+         {
+             ViewBag.ErrorMessage = $&quot;User with Id = {id} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+         else
+         {
+             var result = await userManager.DeleteAsync(user);
+
+             if (result.Succeeded)
+             {
+                 return RedirectToAction(&quot;ListUsers&quot;);
+             }
+
+             foreach (var error in result.Errors)
+             {
+                 ModelState.AddModelError(&quot;&quot;, error.Description);
+             }
+
+             return View(&quot;ListUsers&quot;);
+         }
+     }
+
+
+     /// &lt;summary&gt;
+     /// This method is used to delete a user from the database
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;id&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+     [Authorize(Policy = &quot;DeleteRolePolicy&quot;)]
+     public async Task&lt;IActionResult&gt; DeleteRole(string id)
+     {
+         var role = await roleManager.FindByIdAsync(id);
+
+         if (role == null)
+         {
+             ViewBag.ErrorMessage = $&quot;Role with Id = {id} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+         else
+         {
+             try
+             {                    
+                 var result = await roleManager.DeleteAsync(role);
+                 if (result.Succeeded)
+                 {
+                     return RedirectToAction(&quot;ListRoles&quot;);
+                 }
+                 foreach (var error in result.Errors)
+                 {
+                     ModelState.AddModelError(&quot;&quot;, error.Description);
+                 }
+                 return View(&quot;ListRoles&quot;);
+             }                
+             catch (DbUpdateException )
+             {                                    
+                 ViewBag.ErrorTitle = $&quot;{role.Name} role is in use&quot;;
+                 ViewBag.ErrorMessage = $&quot;{role.Name} role cannot be deleted as there are users in this role. If you want to delete this role, please remove the users from the role and then try to delete&quot;;
+                 return View(&quot;Error&quot;);
+             }
+         }
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to list all users
+     /// &lt;/summary&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+ [HttpGet]
+     public IActionResult ListUsers()
+     {
+         var users = userManager.Users;
+         return View(users);
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to edit each user
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;id&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpGet]
+
+     public async Task&lt;IActionResult&gt; EditUser(string id)
+     {
+         var user = await userManager.FindByIdAsync(id);
+
+         if (user == null)
+         {
+             ViewBag.ErrorMessage = $&quot;User with Id = {id} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+
+
+         var userClaims = await userManager.GetClaimsAsync(user);
+
+         var userRoles = await userManager.GetRolesAsync(user);
+
+         var model = new EditUserViewModel
+         {
+             Id = user.Id,
+             Email = user.Email,
+             UserName = user.UserName,
+             AdressLine1=user.AddressLine1,
+             AdressLine2=user.AddressLine2,
+             City = user.City,
+             State=user.State,
+             Claims = userClaims.Select(c =&gt; c.Value).ToList(),
+             Roles = userRoles
+         };
+
+         return View(model);
+     }
+
+
+     /// &lt;summary&gt;
+     /// This method is used to edit user information
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+
+     public async Task&lt;IActionResult&gt; EditUser(EditUserViewModel model)
+     {
+         var user = await userManager.FindByIdAsync(model.Id);
+
+         if (user == null)
+         {
+             ViewBag.ErrorMessage = $&quot;User with Id = {model.Id} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+         else
+         {
+             user.Email = model.Email;
+             user.UserName = model.UserName;
+             user.AddressLine1 = model.AdressLine1;
+             user.AddressLine2 = model.AdressLine2;               
+             user.City = model.City;
+             user.State = model.State;
+
+
+             var result = await userManager.UpdateAsync(user);
+
+             if (result.Succeeded)
+             {
+                 return RedirectToAction(&quot;ListUsers&quot;);
+             }
+
+             foreach (var error in result.Errors)
+             {
+                 ModelState.AddModelError(&quot;&quot;, error.Description);
+             }
+
+             return View(model);
+         }
+     }
+
+
+     /// &lt;summary&gt;
+     /// This method is used to get all users
+     /// &lt;/summary&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpGet]
+     [Authorize(Policy = &quot;CreateRolePolicy&quot;)]
+     public IActionResult CreateRole()
+     {
+         return View();
+     }        
+
+     /// &lt;summary&gt;
+     /// This method is used to create a new role
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+     [Authorize(Policy = &quot;CreateRolePolicy&quot;)]
+     public async Task&lt;IActionResult&gt;CreateRole(CreateRoleViewModel model)
+     {
+         if (ModelState.IsValid)
+         {
+             IdentityRole identityRole = new IdentityRole
+             {
+                 Name = model.RoleName
+             };
+             IdentityResult result = await roleManager.CreateAsync(identityRole);
+             if (result.Succeeded)
+             {
+                 return RedirectToAction(&quot;ListRoles&quot;, &quot;Administration&quot;);
+             }
+             foreach(IdentityError error in result.Errors)
+             {
+                 ModelState.AddModelError(&quot;&quot;, error.Description);
+             }
+         }                        
+         return View(model);
+     }
+
+
+     /// &lt;summary&gt;
+     /// This method is used to List all the roles
+     /// &lt;/summary&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpGet]
+     public IActionResult ListRoles()
+     {
+         var roles = roleManager.Roles;
+
+         return View(roles);
+     }
+
+ /// &lt;summary&gt;
+ /// This method is used to Edit each role
+ /// &lt;/summary&gt;
+ /// &lt;param name=&quot;id&quot;&gt;&lt;/param&gt;
+ /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpGet]
+     [Authorize(Policy = &quot;EditRolePolicy&quot;)]
+     public async Task&lt;IActionResult&gt; EditRole(string id)
+     {
+         var role = await roleManager.FindByIdAsync(id);
+
+         if (role == null)
+         {
+             ViewBag.ErrorMessage = $&quot;Role with id = {id} cannot be found&quot;;
+         return  View(&quot;NotFound&quot;);
+         }
+
+         var model = new EditRoleViewModel
+         {
+             Id = role.Id,
+             RoleName = role.Name
+         };
+
+         foreach(var user in userManager.Users)
+         {
+             if(await userManager.IsInRoleAsync(user, role.Name))
+             {
+                 model.Users.Add(user.UserName);
+             }
+         }
+
+         return View(model);
+
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to make alterations in the database
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+     [Authorize(Policy = &quot;EditRolePolicy&quot;)]
+     public async Task&lt;IActionResult&gt; EditRole (EditRoleViewModel model)
+     {
+         var role = await roleManager.FindByIdAsync(model.Id);
+
+         if (role == null)
+         {
+             ViewBag.ErrorMessage = $&quot;Role with id = {model.Id} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+         else
+         {
+             role.Name = model.RoleName;
+             var result = await roleManager.UpdateAsync(role);
+             if (result.Succeeded)
+             {
+                 return RedirectToAction(&quot;ListRoles&quot;);
+             }
+
+             foreach(var error in result.Errors)
+             {
+                 ModelState.AddModelError(&quot;&quot;, error.Description);
+             }
+
+             return View(model);
+         }                                 
+
+     }
+
+
+     /// &lt;summary&gt;
+     /// This method is used to edit users in role
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;roleId&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpGet]
+     public async Task&lt;IActionResult&gt; EditUsersInRole(string roleId)
+     {
+         ViewBag.roleId = roleId;
+         var role = await roleManager.FindByIdAsync(roleId);
+
+         if(role == null)
+         {
+             ViewBag.ErrorMessage = $&quot;Role with Id = {roleId} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+
+         var model = new List&lt;UserRoleViewModel&gt;();
+         foreach(var user in userManager.Users)
+         {
+             var userRoleViewModel = new UserRoleViewModel
+             {
+                 UserId = user.Id,
+                 UserName = user.UserName
+             };
+
+             if(await userManager.IsInRoleAsync(user, role.Name))
+             {
+                 userRoleViewModel.IsSelected = true;
+             }
+             else
+             {
+                 userRoleViewModel.IsSelected = false;
+             }
+
+             model.Add(userRoleViewModel);
+         }
+
+         return View(model);
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to alter database about user in role
+     /// &lt;/summary&gt;
+     /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+     /// &lt;param name=&quot;roleId&quot;&gt;&lt;/param&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpPost]
+     public async Task&lt;IActionResult&gt; EditUsersInRole(List&lt;UserRoleViewModel&gt; model, string roleId)
+     {
+         var role = await roleManager.FindByIdAsync(roleId);
+
+         if (role == null)
+         {
+             ViewBag.ErrorMessage = $&quot;Role with Id = {roleId} cannot be found&quot;;
+             return View(&quot;NotFound&quot;);
+         }
+
+         for(int i = 0; i &lt; model.Count; i++)
+         {
+         var user = await userManager.FindByIdAsync(model[i].UserId);
+             IdentityResult result = null;
+
+             if (model[i].IsSelected &amp;&amp; !(await userManager.IsInRoleAsync(user,role.Name)) )
+             {
+                 result = await userManager.AddToRoleAsync(user, role.Name);
+
+             }else if (!model[i].IsSelected &amp;&amp; await userManager.IsInRoleAsync(user, role.Name))
+             {
+                 result = await userManager.RemoveFromRoleAsync(user, role.Name);
+             }
+             else
+             {
+                 continue;
+             }
+
+             if (result.Succeeded)
+             {
+                 if (i &lt; (model.Count - 1))
+                     continue;
+                 else
+                     return RedirectToAction(&quot;EditRole&quot;, new { Id = roleId });
+             }
+         }
+
+         return RedirectToAction(&quot;EditRole&quot;, new { Id = roleId });
+
+     }
+
+     /// &lt;summary&gt;
+     /// This method is used to deny access to users without authorization
+     /// &lt;/summary&gt;
+     /// &lt;returns&gt;&lt;/returns&gt;
+     [HttpGet]
+     [AllowAnonymous]
+     public IActionResult AccessDenied()
+     {
+         return View();
+     }
+
+ }               
+ }
+</code></pre>
+</li>
+</ol>
+<h2 id="accountcontrollercs">AccountController.cs</h2>
+<p>This controller is resposible for authorizing user and registering new users.This controller is also responsible for third party authorization (GitHub and could be used for other services as well)<br><br></p>
+<p>This controller handels requests from pages<br></p>
+<ol>
+<li><p>Login.cshtml</p>
+</li>
+<li><p>Register.cshtml
+<br>
+<br></p>
+<pre><code> namespace HandInHandOut.Controllers
+ {
+     public class AccountController : Controller
+     {
+         private readonly UserManager&lt;ApplicationUser&gt; userManager;
+         private readonly SignInManager&lt;ApplicationUser&gt; signInManager;
+
+         public AccountController(UserManager&lt;ApplicationUser&gt; userManager, SignInManager&lt;ApplicationUser&gt; signInManager)
+         {
+             this.userManager = userManager;
+             this.signInManager = signInManager;
+         }
+
+         /// &lt;summary&gt;
+         /// This method is used to log out 
+         /// &lt;/summary&gt;
+         /// &lt;returns&gt;&lt;/returns&gt;
+         [HttpPost]
+         public async Task&lt;IActionResult&gt; Logout()
+         {
+             await signInManager.SignOutAsync();
+             return RedirectToAction(&quot;Welcome&quot;, &quot;home&quot;);
+         }
+
+         /// &lt;summary&gt;
+         /// This method is used to redirect the user to register
+         /// &lt;/summary&gt;
+         /// &lt;returns&gt;&lt;/returns&gt;
+         [HttpGet]
+         [AllowAnonymous]
+         public IActionResult Register()
+         {
+             return View();
+         }
+
+
+         /// &lt;summary&gt;
+         /// This method is used to check if the email is in use
+         /// &lt;/summary&gt;
+         /// &lt;param name=&quot;email&quot;&gt;&lt;/param&gt;
+         /// &lt;returns&gt;&lt;/returns&gt;
+         [HttpGet]
+         [HttpPost]
+         [AllowAnonymous]
+         public async Task&lt;IActionResult&gt; IsEmailInUse(string email)
+         {
+             var user = await userManager.FindByEmailAsync(email);
+             if (user == null)
+             {
+                 return Json(true);
+             }
+             else
+             {
+                 return Json($&quot;Email {email} is already in use&quot;);
+             }
+         }
+
+         /// &lt;summary&gt;
+         /// This method is used to register a user
+         /// &lt;/summary&gt;
+         /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+         /// &lt;returns&gt;&lt;/returns&gt;
+         [HttpPost]
+         [AllowAnonymous]
+         public async Task&lt;IActionResult&gt; Register(RegisterViewModel model)
+         {
+             if (ModelState.IsValid)
+             {
+                 var user = new ApplicationUser
+                 {
+                     UserName = model.Email,
+                     Email = model.Email,
+                     City = model.City,
+                     AddressLine1 = model.AdressLine1,
+                     AddressLine2 = model.AdressLine2,
+                     State = model.State
+                 };
+                 var result = await userManager.CreateAsync(user, model.Password);
+
+                 if (result.Succeeded)
+                 {
+                     if (signInManager.IsSignedIn(User) &amp;&amp; User.IsInRole(&quot;Admin&quot;))
+                     {
+                         return RedirectToAction(&quot;ListUsers&quot;, &quot;Administration&quot;);
+                     }
+                     await signInManager.SignInAsync(user, isPersistent: false);
+                     return RedirectToAction(&quot;Welcome&quot;, &quot;home&quot;);
+                 }
+                 foreach (var error in result.Errors)
+                 {
+                     ModelState.AddModelError(&quot;&quot;, error.Description);
+                 }
+             }
+             return View(model);
+         }
+
+
+         /// &lt;summary&gt;
+         /// This method is used to login a user 
+         /// &lt;/summary&gt;
+         /// &lt;param name=&quot;returnUrl&quot;&gt;&lt;/param&gt;
+         /// &lt;returns&gt;&lt;/returns&gt;
+         [HttpGet]
+         [AllowAnonymous]
+         public async Task&lt;IActionResult&gt; Login(string returnUrl)
+         {
+             LoginViewModel model = new LoginViewModel
+             {
+                 ReturnUrl = returnUrl,
+                 ExternalLogins =
+                 (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+             };
+
+             return View(model);
+         }
+
+         /// &lt;summary&gt;
+         /// This method is used to redirect a user after they have successfully logged in
+         /// &lt;/summary&gt;
+         /// &lt;param name=&quot;model&quot;&gt;&lt;/param&gt;
+         /// &lt;param name=&quot;returnUrl&quot;&gt;&lt;/param&gt;
+         /// &lt;returns&gt;&lt;/returns&gt;
+         [HttpPost]
+         [AllowAnonymous]
+         public async Task&lt;IActionResult&gt; Login(LoginViewModel model, string returnUrl)
+         {
+             if (ModelState.IsValid)
+             {
+                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RemeberMe, false);
+
+                 if (result.Succeeded)
+                 {
+                     if (!string.IsNullOrEmpty(returnUrl) &amp;&amp; Url.IsLocalUrl(returnUrl))
+                     {
+                         return LocalRedirect(returnUrl);
+                     }
+                     else
+                     {
+                         return RedirectToAction(&quot;Welcome&quot;, &quot;home&quot;);
+                     }
+
+                 }
+
+                 ModelState.AddModelError(string.Empty, &quot;Invalid Login Attempt&quot;);
+             }
+             return View(model);
+         }
+
+         /// &lt;summary&gt;
+         /// This method is used to authenticate a user using a third part authorization
+         /// &lt;/summary&gt;
+         /// &lt;param name=&quot;provider&quot;&gt;&lt;/param&gt;
+         /// &lt;param name=&quot;returnUrl&quot;&gt;&lt;/param&gt;
+         /// &lt;returns&gt;&lt;/returns&gt;
+         [AllowAnonymous]
+         [HttpPost]
+         public IActionResult ExternalLogin(string provider, string returnUrl)
+         {
+             var redirectUrl = Url.Action(&quot;ExternalLoginCallback&quot;, &quot;Account&quot;,
+                 new { ReturnUrl = returnUrl });
+             var properties = signInManager
+                 .ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+             return new ChallengeResult(provider, properties);
+         }
+
+         /// &lt;summary&gt;
+         /// This method is used as a call back from a third party authentication
+         /// &lt;/summary&gt;
+         /// &lt;param name=&quot;returnUrl&quot;&gt;&lt;/param&gt;
+         /// &lt;param name=&quot;remoteError&quot;&gt;&lt;/param&gt;
+         /// &lt;returns&gt;&lt;/returns&gt;
+         [AllowAnonymous]
+         public async Task&lt;IActionResult&gt;
+             ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+         {
+             returnUrl = returnUrl ?? Url.Content(&quot;~/&quot;);
+
+             LoginViewModel loginViewModel = new LoginViewModel
+             {
+                 ReturnUrl = returnUrl,
+                 ExternalLogins =
+                         (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+             };
+
+             if (remoteError != null)
+             {
+                 ModelState
+                     .AddModelError(string.Empty, $&quot;Error from external provider: {remoteError}&quot;);
+
+                 return View(&quot;Login&quot;, loginViewModel);
+             }
+
+             // Get the login information about the user from the external login provider
+             var info = await signInManager.GetExternalLoginInfoAsync();
+             if (info == null)
+             {
+                 ModelState
+                     .AddModelError(string.Empty, &quot;Error loading external login information.&quot;);
+
+                 return View(&quot;Login&quot;, loginViewModel);
+             }
+
+             // If the user already has a login (i.e if there is a record in AspNetUserLogins
+             // table) then sign-in the user with this external login provider
+             var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider,
+                 info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+             if (signInResult.Succeeded)
+             {
+                 return LocalRedirect(returnUrl);
+             }
+             // If there is no record in AspNetUserLogins table, the user may not have
+             // a local account
+             else
+             {
+                 // Get the email claim value
+                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+                 if (email != null)
+                 {
+                     // Create a new user without password if we do not have a user already
+                     var user = await userManager.FindByEmailAsync(email);
+
+                     if (user == null)
+                     {
+                         user = new ApplicationUser
+                         {
+                             UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                             Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                         };
+
+                         await userManager.CreateAsync(user);
+                     }
+
+                     // Add a login (i.e insert a row for the user in AspNetUserLogins table)
+                     await userManager.AddLoginAsync(user, info);
+                     await signInManager.SignInAsync(user, isPersistent: false);
+
+                     return LocalRedirect(returnUrl);
+                 }
+
+                 // If we cannot find the user email we cannot continue
+                 ViewBag.ErrorTitle = $&quot;Email claim not received from: {info.LoginProvider}&quot;;
+                 ViewBag.ErrorMessage = &quot;Please contact support on &quot;;
+
+                 return View(&quot;Error&quot;);
+             }
+         }
+
+
+     }
+ }
+</code></pre>
+</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

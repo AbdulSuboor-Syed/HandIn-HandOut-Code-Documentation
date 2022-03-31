@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>View Models </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="View Models ">
+    <meta name="generator" content="docfx 2.59.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="view-models">View Models</h1>
+
+<p>These models are used in various operations for different controllers.<br></p>
+<h2 id="bookcreateviewmodelcs">BookCreateViewModel.cs</h2>
+<p>This model is used by HomeController Create() method to add new books to the repository.</p>
+<pre><code>namespace HandInHandOut.ViewModels
+{
+    public class BookCreateViewModel
+    {        
+
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Author { get; set; }
+        [Required]
+        public Major? Major { get; set; }
+        public double BuyingAmount { get; set; }
+        public double RentingAmount { get; set; }
+        public Available IsAvailable { get; set; }
+
+        public int NumberOfBooksAvailable { get; set; }
+
+        public IFormFile Photo { get; set; }
+    }
+}
+</code></pre>
+<h2 id="bookeditviewmodelcs">BookEditViewModel.cs</h2>
+<p>This class extends BookCreateViewModel and used by HomeController Edit() method to edit books from the repository.</p>
+<pre><code>namespace HandInHandOut.ViewModels
+{
+    public class BookEditViewModel:BookCreateViewModel
+    {
+        public int id { get; set; }
+        public string ExistingPhotoPath { get; set; }
+    }
+}
+</code></pre>
+<h2 id="editroleviewmodelcs">EditRoleViewModel.cs</h2>
+<p>This model is used by AccountController EditRole() method to edit roles of a user.</p>
+<pre><code>namespace HandInHandOut.ViewModels
+{
+    public class EditRoleViewModel
+    {
+        public EditRoleViewModel()
+        {
+            Users = new List&lt;string&gt;();
+        }
+        public string Id { get; set; }
+
+        [Required]
+        public string RoleName { get; set; }
+
+        public List&lt;string&gt; Users { get; set; }
+    }
+}
+</code></pre>
+<h2 id="edituserviewmodelcs">EditUserViewModel.cs</h2>
+<p>This model is used by Account controller EditUser() method to edit user information , role and claim
+namespace HandInHandOut.ViewModels
+{
+public class EditUserViewModel
+{
+public EditUserViewModel()
+{
+Claims = new List<string>();
+Roles = new List<string>();
+}<p>
+<pre><code>        public string Id { get; set; }
+
+        [Required]
+        public string UserName { get; set; }
+
+        [Required]        
+        public string Email { get; set; }
+
+        public string AdressLine1 { get; set; }
+        public string AdressLine2 { get; set; }
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+        
+
+        public List&lt;string&gt; Claims { get; set; }
+
+        public IList&lt;string&gt; Roles { get; set; }
+    }
+}
+</code></pre>
+<h2 id="homedetailsviewmodelcs">HomeDetailsViewModel.cs</h2>
+<p>This model is used by Home controller Details() method to View details for the book selected
+namespace HandInHandOut.ViewModels
+{
+public class HomeDetailsViewModel
+{
+public Books books { get; set; }
+public string PageTitle { get; set; }
+}
+}</p>
+<h2 id="loginviewmodelcs">LoginViewModel.cs</h2>
+<p>This model is used by Account controller Login() method to authenticate a user.</p>
+<pre><code>    namespace HandInHandOut.ViewModels
+    {
+        public class LoginViewModel
+        {
+            [Required]        
+            public string Email { get; set; }
+
+            [Required]
+            [DataType(DataType.Password)]
+            public string Password { get; set; }
+
+            [Display(Name = &quot;Remember me&quot;)]
+            public Boolean RemeberMe { get; set; }
+
+            public string ReturnUrl { get; set; }
+
+            // AuthenticationScheme is in Microsoft.AspNetCore.Authentication namespace
+            public IList&lt;AuthenticationScheme&gt; ExternalLogins { get; set; }
+        }
+    }
+</code></pre>
+<h2 id="registerviewmodelcs">RegisterViewModel.cs</h2>
+<p>This model is used by Account controller Register() method to add new user to the database</p>
+<pre><code>    namespace HandInHandOut.ViewModels
+    {
+        public class RegisterViewModel
+        {
+            [Required]
+            [EmailAddress]
+            [ValidEmailDomain(allowedDomain:&quot;gmail.com&quot;,ErrorMessage = &quot;Email domain must be gmail.com&quot;)]
+            public string Email { get; set; }
+
+            [Required]
+            [DataType(DataType.Password)]
+            public string Password { get; set; }
+
+            [DataType(DataType.Password)]
+            [Display(Name = &quot;Confirm Password&quot;)]
+            [Compare(&quot;Password&quot;, ErrorMessage = &quot;Password and confirmation password do not match&quot;)]
+            public string ConfirmPassword { get; set; }
+        
+
+            public string City { get; set; }
+
+            public string AdressLine1 { get; set; }
+            public string AdressLine2 { get; set; }
+
+            public string State { get; set; }
+        }
+    }
+</code></pre>
+<h2 id="userclaimcs">UserClaim.cs</h2>
+<p>This model is used by Account Controller and Administration Controller in various methods to check edit user claims to give them access to certain operations.</p>
+<pre><code>    namespace HandInHandOut.ViewModels
+    {
+        public class UserClaim
+        {
+            public string ClaimType { get; set; }
+            public bool IsSelected { get; set; }
+        }
+    }
+</code></pre>
+<h2 id="userclaimsviewmodelcs">UserClaimsViewModel.cs</h2>
+<p>This model is used similarly to UserClaim.cs model</p>
+<pre><code>    namespace HandInHandOut.ViewModels
+    {
+        public class UserClaimsViewModel { 
+        public UserClaimsViewModel()
+        {
+            Cliams = new List&lt;UserClaim&gt;();
+        }
+
+        public string UserId { get; set; }
+        public List&lt;UserClaim&gt; Cliams { get; set; }
+    }
+    }
+</code></pre>
+<h2 id="userrolesviewmodelcs">UserRolesViewModel.cs</h2>
+<p>This model is used by Administration Controller in various methods to authorize user with a role to give them access to certain operations and pages.
+namespace HandInHandOut.ViewModels
+{
+public class UserRolesViewModel
+{
+public string RoleId { get; set; }
+public string RoleName { get; set; }
+public bool IsSelected { get; set; }
+}
+}</p>
+<h2 id="userroleviewmodelcs">UserRoleViewModel.cs</h2>
+<p>This model is used by Administration Controller in various methods to authorize user with a role to give them access to certain operations and pages.</p>
+<pre><code>    namespace HandInHandOut.ViewModels
+    {
+        public class UserRoleViewModel
+        {
+            public string UserId { get; set; }
+            public string UserName { get; set; }
+            public bool IsSelected { get; set; }
+        }
+    }
+</code></pre>
+</string></string></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
